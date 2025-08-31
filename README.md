@@ -1,4 +1,4 @@
-# HIntGame
+# HintGame
 
 ## はじめに
 
