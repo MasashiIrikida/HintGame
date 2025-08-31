@@ -52,6 +52,10 @@ gradle shadowJarを実行し、build/libs/に、fat Jarファイルを作成し�
 
 /scoreranking 上位5件と直近のスコア情報が表示されます
 <br><br>
+## 工夫した点
+
+
+<br><br>
 ## おわりに
 
 今後も本作品、READMEの充実に向けて更新を予定しています
