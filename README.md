@@ -20,7 +20,7 @@ hardをクリアすると、水中活動がスムーズになるダイバーヘ�
 <br><br>
 ## 環境
 
-開発言語: Java Oracle OpenJDK 21.0.9
+開発言語: jdk-21 (Oracle)
 
 SDK：ms-17.0.15 (Microsoft)
 
