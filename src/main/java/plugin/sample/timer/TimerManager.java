@@ -127,7 +127,7 @@ public class TimerManager {
       player.sendMessage(ChatColor.GREEN + "アイテム取得！");
 
       // 経過時間とスコアを表示するメッセージを送信
-      player.sendMessage("経過時間: " + data.getElapsedSeconds() + " 秒 | スコア: " + data.getScore() + " 点");
+      player.sendMessage("経過時間: " + data.getElapsedSeconds() + " 秒 | スコア: " + data.getScore() + " 点　| よく頑張りました！");
 
       // タイトルを画面中央に表示（フェードイン20, 表示100, フェードアウト20）
       player.sendTitle("ゲームクリア！", "", 20, 100, 20);
@@ -175,3 +175,4 @@ public class TimerManager {
     return inventoryMaterials.containsAll(targetSet);
   }
 }
+
