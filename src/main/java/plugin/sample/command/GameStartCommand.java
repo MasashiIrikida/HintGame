@@ -155,12 +155,6 @@ public class GameStartCommand implements CommandExecutor, Listener {
       player.sendMessage("宝探しが始まりました");
       player.sendMessage("ナビゲーターを右クリックしてヒントを尋ねてください");
 
-      // バニラBGMを停止
-      player.stopSound(SoundCategory.MUSIC);
-
-      // カスタムBGMをリピート挿入
-      plugin.startMusicLoop(player);
-
       // タイマーを起動
       timerManager.startTimer(player, args);
 
