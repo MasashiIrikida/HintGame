@@ -92,33 +92,6 @@ public final class Main extends JavaPlugin implements Listener {
 
 
   /**
-   * BGMのループ再生を開始するメソッドです
-   */
-  public void startMusicLoop(Player player) {
-    BukkitTask task = new BukkitRunnable() {
-      @Override
-      public void run() {
-        player.playSound(player.getLocation(), "custom.16bit_korezo_machi_loop", 1.0f, 1.0f);
-      }
-    }.runTaskTimer(this, 0L, 20L * 90);
-
-    musicTasks.put(player.getUniqueId(), task);
-  }
-
-
-  /**
-   * BGMのループ再生を終了するメソッドです
-   */
-  public void stopMusicLoop(Player player) {
-    BukkitTask task = musicTasks.remove(player.getUniqueId());
-    if (task != null) {
-      task.cancel();
-    }
-    player.stopSound("custom.16bit_korezo_machi_loop", SoundCategory.MUSIC);
-  }
-
-
-  /**
    * ログアウト時に実行するメソッドです
    */
   @EventHandler
@@ -142,9 +115,6 @@ public final class Main extends JavaPlugin implements Listener {
 
     // インベントリからアイテムを削除
     removeInventoryItems(player);
-
-    // カスタムBGMを止める
-    stopMusicLoop(event.getPlayer());
 
     System.out.println(player.getName() + "がログアウトしました");
   }
