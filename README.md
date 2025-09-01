@@ -26,7 +26,7 @@ hardをクリアした時に手に入るダイバーヘルメットには、暗�
 <br><br>
 ## コマンド
 
-/gamestart [easy, normal, hard]　　難易度に応じたミニゲームが開始されます
+/gamestart [easy, normal, hard]　　　 難易度に応じたミニゲームが開始されます
 
 /scorelist 　　　　　　　　　　　　　直近20件のスコア情報が表示されます
 
