@@ -1,4 +1,4 @@
-# HintGame
+# HintGame（宝探しゲーム）
 
 ## はじめに
 
