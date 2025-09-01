@@ -26,19 +26,19 @@ hardをクリアした時に手に入るダイバーヘルメットには、暗�
 <br><br>
 ## コマンド
 
-/gamestart [easy, normal, hard]　難易度に応じたミニゲームが開始されます
+/gamestart [easy, normal, hard]　　難易度に応じたミニゲームが開始されます
 
-/scorelist 直近20件のスコア情報が表示されます
+/scorelist 　　　　　　　　　　　　　直近20件のスコア情報が表示されます
 
-/scoreranking 上位5件と直近のスコア情報が表示されます
+/scoreranking 　　　　　　　　　　　上位5件と直近のスコア情報が表示されます
 <br><br>
 ## 留意事項
 
-マルチプレイ未対応です
+マルチプレイには未対応です
 
-MySQLにて別途データベースを構築し、設定ファイルにurl,username,passwordを記載してください
+データベースが必要です。MySQLのテーブルを作成し、設定ファイルにurl,username,passwordを記載してください
 
-gradle shadowJarを実行し、build/libs/に、fat Jarファイルを作成してください
+gradle shadowJarを実行し、build/libs/にfat Jarファイルを作成してください
 
 半径30ブロック以上が陸地である事を確認して、コマンドを実行してください
 <br><br>
