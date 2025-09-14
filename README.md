@@ -99,6 +99,45 @@
 
 ---
 
+## 導入方法（Windows向けの解説）
+
+1.Minecraftのインストール
+
+  - Minecraft; Java&Bedrock Edition for PCを購入して、インストールしてください
+
+　- その際、Microsoftアカウントの作成も必要です
+
+2.Jarファイルのダウンロード
+
+  - Minecraftのバージョンに合わせて、SpigotのJarファイルをダウンロードしてください
+    https://getbukkit.org/download/spigot
+    
+  - 今回はバージョン1.21.4となります
+
+3.バッチファイルの作成
+
+　- ダウンロードしたJarファイルをspigot_serverに名前を変えます
+
+  - メモ帳等からバッチファイルを作成します。内容は以下の通りです
+
+  - @echo off
+　　java -Xms4G -Xmx4G -jar spigot_server.jar -nogui
+　　pause
+
+　- バッチファイルはserver_start.batのように命名してください
+
+4.サーバーの起動
+
+　- バッチファイルをダブルクリックすると、サーバーが起動します
+
+  - eula.textを開いて、eula=falseをtrueに変更してください
+
+  - その後、自動でファイルが作成されます
+  - 
+
+
+---
+
 ## 🙏 おわりに
 
 最後までお読みいただき、ありがとうございました！  
