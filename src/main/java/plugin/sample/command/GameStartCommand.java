@@ -43,21 +43,13 @@ public class GameStartCommand implements CommandExecutor, Listener {
     this.timerManager = timerManager;
   }
 
-
-  // 名前を付けた村人の数を記録する変数（最初は0）
   private int namedVillagerCount = 0;
 
-
-  // コマンドを実行したプレイヤーを記録
   private final Set<UUID> CommandUserSet = new HashSet<>();
 
-
-  // 引数0のコンストラクタ
   public GameStartCommand() {
   }
 
-
-  // コマンド実行時の引数を保存して、他クラスで使用
   @Getter
   private String[] lastArgs = new String[0];
 
@@ -68,16 +60,14 @@ public class GameStartCommand implements CommandExecutor, Listener {
   @Getter
   public enum Difficulty {
     // 難易度ごとに対応するアイテムを設定
-    EASY(new Material[]{Material.MAP}), // イージー：地図
-    NORMAL(new Material[]{Material.MAP, Material.GLOW_ITEM_FRAME}), // ノーマル：地図＋輝く額縁
+    EASY(new Material[]{Material.MAP}),
+    NORMAL(new Material[]{Material.MAP, Material.GLOW_ITEM_FRAME}),
     HARD(new Material[]{Material.MAP, Material.GLOW_ITEM_FRAME,
-        Material.SPYGLASS}), // ハード：地図＋輝く額縁＋望遠鏡
-    NONE(new Material[]{}); // 未選択：アイテムなし
+        Material.SPYGLASS}),
+    NONE(new Material[]{});
 
-    // 各難易度に紐づくアイテム（Material型の配列）
     private final Material[] targetItems;
 
-    // コンストラクタ：enumの各定数にアイテムを設定
     Difficulty(Material[] targetItems) {
       this.targetItems = targetItems;
     }
@@ -95,7 +85,6 @@ public class GameStartCommand implements CommandExecutor, Listener {
       return true;
     }
 
-    // コマンドをすでに使ったかチェック
     if (CommandUserSet.contains(player.getUniqueId())) {
       player.sendMessage("");
       player.sendMessage(ChatColor.GREEN + "このコマンドは一度しか使えません");
@@ -103,28 +92,20 @@ public class GameStartCommand implements CommandExecutor, Listener {
       return true;
     }
 
-    // コマンドを使用済みとして記録
     CommandUserSet.add(player.getUniqueId());
 
-    // プレイヤーと引数から難易度を取得（EASY, NORMAL, HARD）
     Difficulty difficulty = getDifficultyLabel(player, args);
 
-    // 難易度が取得できなかった場合はコマンドを実行しない
     if (difficulty == Difficulty.NONE) return false;
 
-    // エンティティのスポーン位置を取得
     GetVillagerLocation result = getResult(player);
 
-    // 難易度がノーマルとハードの場合、輝く額縁をスポーン
     spawnFrame(player, difficulty);
 
-    // 難易度がハードの場合、望遠鏡をスポーン
     spawnSpyglass(player, difficulty);
 
-    // 引数を保存して後で利用
     this.lastArgs = args;
 
-    // 位置情報を判定して、村人、職業ブロック、エメラルドをスポーン
     return isAirSolid(player, result, args);
   }
 
@@ -136,25 +117,19 @@ public class GameStartCommand implements CommandExecutor, Listener {
 
     if (result.blockAt().getType().isAir() && result.blockBelow().getType().isSolid()) {
 
-      // 就職する村人を5人スポーン
       spawnVillager(player, result);
 
-      // 考える村人を2人スポーン
       spawnThinkingVillager(player);
 
-      // 職業ブロックを5個スポーン
       setJobSiteBlock(player);
 
-      // エメラルドを10個スポーン
       spawnEmerald(player);
 
-      // チャットメッセージを作成
       player.sendTitle("宝探しスタート！", "" , 20, 100, 20);
       player.sendMessage("");
       player.sendMessage("宝探しが始まりました");
       player.sendMessage("ナビゲーターを右クリックしてヒントを尋ねてください");
 
-      // タイマーを起動
       timerManager.startTimer(player, args);
 
     } else {
@@ -186,7 +161,7 @@ public class GameStartCommand implements CommandExecutor, Listener {
         return Difficulty.HARD;
       default:
         try {
-          // valueOf による厳密なチェック（例: "EASY" → EASY）
+
           return Difficulty.valueOf(args[0].toUpperCase());
         } catch (IllegalArgumentException e) {
           return Difficulty.NONE;
@@ -212,11 +187,9 @@ public class GameStartCommand implements CommandExecutor, Listener {
 
       Location dropLoc = playerLoc.clone().add(offsetX, 0, offsetZ);
 
-      // 地面の高さを取得して、少し上に設定
       int y = world.getHighestBlockYAt(dropLoc);
       dropLoc.setY(y + 1);
 
-      // アイテムを生成して自然にドロップ
       ItemStack glowFrame = new ItemStack(Material.GLOW_ITEM_FRAME);
       world.dropItemNaturally(dropLoc, glowFrame);
     }
@@ -247,20 +220,15 @@ public class GameStartCommand implements CommandExecutor, Listener {
   @NotNull
   private GetVillagerLocation getResult(Player player) {
 
-    // プレイヤーの向いている方向ベクトルを取得
     Vector direction = player.getLocation().getDirection().normalize();
 
-    // 背面5ブロック先の位置を計算
     Location baseLocation = player.getLocation().add(direction.multiply(-5));
 
-    // プレイヤーと同じ高さに固定
     Location spawnLocation = baseLocation.clone();
     spawnLocation.setY(player.getLocation().getY());
 
-    // スポーン位置のブロックを設定
     Block blockAt = spawnLocation.getBlock();
 
-    // スポーン位置の真下のブロックを設定
     Block blockBelow = spawnLocation.clone().add(0, -1, 0).getBlock();
     return new GetVillagerLocation(spawnLocation, blockAt, blockBelow);
   }
@@ -282,7 +250,7 @@ public class GameStartCommand implements CommandExecutor, Listener {
     for (int i = 0; i < 5; i++) {
       Villager villager = (Villager) player.getWorld()
           .spawnEntity(result.spawnLocation(), EntityType.VILLAGER);
-      plugin.getSummonedVillagerList().add(villager); // 村人をリストに登録// 村人に名前を与える
+      plugin.getSummonedVillagerList().add(villager);
     }
   }
 
@@ -292,20 +260,17 @@ public class GameStartCommand implements CommandExecutor, Listener {
    */
   private void spawnThinkingVillager(Player player) {
 
-    // プレイヤーの向いている方向ベクトルを取得
     Vector direction = player.getLocation().getDirection().normalize();
 
-    // 正面5ブロック先の位置を計算
     Location baseLocation = player.getLocation().add(direction.multiply(5));
 
-    // プレイヤーより2ブロック高くスポーン
     Location spawnLocation = baseLocation.clone().add(0, 2, 0);
 
     for (int i = 0; i < 2; i++) {
       Villager villager = (Villager) player.getWorld()
           .spawnEntity(spawnLocation, EntityType.VILLAGER);
-      plugin.getSummonedVillagerList().add(villager); // 村人をリストに登録
-      namingVillager(villager); // 村人に名前を与える
+      plugin.getSummonedVillagerList().add(villager);
+      namingVillager(villager);
     }
   }
 
@@ -385,7 +350,7 @@ public class GameStartCommand implements CommandExecutor, Listener {
     int spawnedEmerald = 0;
     int attempts = 0;
 
-    while (spawnedEmerald < 10 && attempts < 100) { // 無限ループ防止
+    while (spawnedEmerald < 10 && attempts < 100) {
       attempts++;
 
       int dx = random.nextInt(21) - 10;
@@ -396,16 +361,14 @@ public class GameStartCommand implements CommandExecutor, Listener {
 
       Location spawnLoc = baseLoc.clone().add(dx, 0, dz);
       int y = world.getHighestBlockYAt(spawnLoc);
-      spawnLoc.setY(y + 1); // 地面の上にスポーン
+      spawnLoc.setY(y + 1);
 
-      // 地上にブロックがあるかチェック（例：トーチやチェストなど）
       Block worldBlockAt = world.getBlockAt(spawnLoc.clone().subtract(0, 1, 0));
-      if (!worldBlockAt.getType().isSolid()) continue; // 地面が不安定ならスキップ
+      if (!worldBlockAt.getType().isSolid()) continue;
 
       Block blockAtSpawn = world.getBlockAt(spawnLoc);
-      if (blockAtSpawn.getType() != Material.AIR) continue; // 何か置かれているならスキップ
+      if (blockAtSpawn.getType() != Material.AIR) continue;
 
-      // 既存のエンティティがいるかチェック（アイテムやMobなど）
       boolean entityExists = !world.getNearbyEntities(spawnLoc, 0.5, 1, 0.5).isEmpty();
       if (entityExists) continue;
 
