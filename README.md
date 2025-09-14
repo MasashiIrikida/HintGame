@@ -102,6 +102,7 @@
 | SDK          | ms-17.0.15 (Microsoft)   |
 | アプリ       | Minecraft 1.21.4         |
 | サーバー     | Spigot 1.21.4            |
+| プラグイン　　| ShadowJar 8.3.8         |
 | データベース | MySQL 8.0.43             |
 | ORM          | MyBatis 3.5.19           |
 | OS           | Windows 11               |
