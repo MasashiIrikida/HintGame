@@ -18,7 +18,6 @@ import plugin.sample.mapper.data.PlayerScore;
  */
 public class ScoreListCommand implements CommandExecutor {
 
-  // スコア登録・取得などのDB操作を行うクラス
   private final SessionFactory sessionFactory = new SessionFactory();
 
   @Override
@@ -29,13 +28,10 @@ public class ScoreListCommand implements CommandExecutor {
       return true;
     }
 
-    // DBからスコア情報を取得してリスト化
     List<PlayerScore> playerScoreList = sessionFactory.selectList();
 
-    // 空行
     player.sendMessage("");
 
-    // 各スコア情報をプレイヤーにチャットで表示
     for (PlayerScore playerScore : playerScoreList) {
       player.sendMessage(
           playerScore.getId() + " | "                       // スコアID（主キー）

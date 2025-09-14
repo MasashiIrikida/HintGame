@@ -30,13 +30,10 @@ public class ScoreRankingCommand implements CommandExecutor {
       return true;
     }
 
-    // データベースから上位5件のプレイヤースコアを取得
     List<PlayerScore> playerScoreTop5 = sessionFactory.selectTop5();
 
-    // 空行
     player.sendMessage("");
 
-    // 各スコア情報をプレイヤーにチャットで表示
     player.sendMessage(ChatColor.GREEN + "スコアランキング上位5件");
 
     for (int i = 0; i < playerScoreTop5.size(); i++) {
@@ -52,13 +49,10 @@ public class ScoreRankingCommand implements CommandExecutor {
       );
     }
 
-    // 空行
     player.sendMessage("");
 
-    // データベースから直近のプレイヤースコアを取得
     PlayerScore playerScoreLatest = sessionFactory.selectLatest();
 
-    // スコア情報をプレイヤーにチャットで表示
     player.sendMessage(ChatColor.GREEN + "最新スコア情報");
     player.sendMessage(playerScoreLatest.getPlayerName() + " | "  // プレイヤー名
         + playerScoreLatest.getScore() + " | "                  // スコア

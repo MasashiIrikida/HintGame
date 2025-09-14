@@ -38,19 +38,15 @@ import plugin.sample.timer.TimerManager;
  */
 public final class Main extends JavaPlugin implements Listener {
 
-  // 村人をリストに追加するゲッターとそのリスト
   @Getter
   private final List<Villager> summonedVillagerList = new ArrayList<>();
 
-  // 職業ブロックをリストに追加するゲッターとそのリスト
   @Getter
   private final List<JobSiteBlock> jobSiteBlockList = new ArrayList<>();
 
-  // gameStartCommandをパッケージ全体で用いるためのゲッターと変数
   @Getter
   private GameStartCommand gameStartCommand;
 
-  // カスタムBGMを登録
   private final Map<UUID, BukkitTask> musicTasks = new HashMap<>();
 
 
@@ -61,21 +57,17 @@ public final class Main extends JavaPlugin implements Listener {
   public void onEnable() {
     saveDefaultConfig();
 
-    // ダイバーヘルメットにポーション効果を付与
     DiverHelmet diverHelmet = new DiverHelmet(this);
     diverHelmet.getPotionEffect(this);
 
     TimerManager timerManager = new TimerManager(this);
 
-    // GameStartCommand を先に初期化
     this.gameStartCommand = new GameStartCommand(this, timerManager);
 
-    // コマンド登録
     Objects.requireNonNull(getCommand("gameStart")).setExecutor(gameStartCommand);
     Objects.requireNonNull(getCommand("scoreList")).setExecutor(new ScoreListCommand());
     Objects.requireNonNull(getCommand("scoreRanking")).setExecutor(new ScoreRankingCommand());
 
-    // リスナー登録
     getServer().getPluginManager().registerEvents(this, this);
     getServer().getPluginManager().registerEvents(new VillagerRespond(this), this);
   }
@@ -98,22 +90,18 @@ public final class Main extends JavaPlugin implements Listener {
   public void onPlayerQuit(PlayerQuitEvent event) {
     Player player = event.getPlayer();
 
-    // コマンドから呼び出した村人をゲームから削除
     summonedVillagerList.stream()
         .filter(villager -> villager != null && !villager.isDead())
         .forEach(Entity::remove);
     summonedVillagerList.clear();
 
-    // コマンドから呼び出した職業ブロックをゲームから削除
     jobSiteBlockList.stream()
         .filter(jobSiteBlock -> jobSiteBlock != null && jobSiteBlock.getSpawnLocation() != null)
         .forEach(jobSiteBlock -> jobSiteBlock.getSpawnLocation().getBlock().setType(Material.AIR));
     jobSiteBlockList.clear();
 
-    // ワールドからアイテムを削除
     removeWorldItems(event);
 
-    // インベントリからアイテムを削除
     removeInventoryItems(player);
 
     System.out.println(player.getName() + "がログアウトしました");
@@ -129,11 +117,11 @@ public final class Main extends JavaPlugin implements Listener {
         ItemStack stack = item.getItemStack();
         Material type = stack.getType();
 
-        if (type == Material.EMERALD ||         // エメラルド
-            type == Material.GLOW_ITEM_FRAME || // 輝く額縁
-            type == Material.MAP ||             // 白地図
-            type == Material.FILLED_MAP ||      // 地図
-            type == Material.SPYGLASS) {        // 望遠鏡
+        if (type == Material.EMERALD ||
+            type == Material.GLOW_ITEM_FRAME ||
+            type == Material.MAP ||
+            type == Material.FILLED_MAP ||
+            type == Material.SPYGLASS) {
           item.remove();
         }
       }
@@ -148,11 +136,11 @@ public final class Main extends JavaPlugin implements Listener {
     Inventory inventory = player.getInventory();
 
     List<Material> targetMaterials = Arrays.asList(
-        Material.MAP,               // 白地図
-        Material.FILLED_MAP,        // 地図
-        Material.GLOW_ITEM_FRAME,   // 輝く額縁
-        Material.SPYGLASS,          // 望遠鏡
-        Material.EMERALD            // エメラルド
+        Material.MAP,
+        Material.FILLED_MAP,
+        Material.GLOW_ITEM_FRAME,
+        Material.SPYGLASS,
+        Material.EMERALD
     );
 
     for (ItemStack item : inventory.getContents()) {

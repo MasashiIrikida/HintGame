@@ -14,10 +14,8 @@ import plugin.sample.mapper.data.PlayerScore;
  */
 public class SessionFactory {
 
-  // SQLセッションファクトリ：DB接続の設定を管理するオブジェクト
   private SqlSessionFactory sqlSessionFactory;
 
-  // Mapperインターフェース：SQL操作を定義したインターフェース
   private PlayerScoreMapper mapper;
 
   /**
@@ -25,19 +23,16 @@ public class SessionFactory {
    */
   public SessionFactory() {
     try {
-      // MyBatisの設定ファイル（mybatis-config.xml）を読み込む
+
       InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
 
-      // 設定ファイルから SqlSessionFactory を構築
       this.sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 
-      // 自動コミットモードでセッションを開始
       SqlSession session = sqlSessionFactory.openSession(true);
 
-      // Mapperインターフェースを取得（SQL操作を呼び出すため）
       this.mapper = session.getMapper(PlayerScoreMapper.class);
     } catch (Exception e) {
-      // 初期化に失敗した場合は例外を投げる
+
       throw new RuntimeException(e);
     }
   }

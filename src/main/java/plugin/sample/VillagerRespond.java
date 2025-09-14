@@ -2,6 +2,7 @@ package plugin.sample;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -20,7 +21,9 @@ public class VillagerRespond implements Listener {
     this.plugin = plugin;
   }
 
-  // 右クリック時に村人がヒントを返すメソッドです
+  /**
+   * 村人に名前を与え、かつ、右クリックした時にヒントを返すメソッドです
+   */
   @EventHandler
   public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
     Entity entity = event.getRightClicked();
@@ -28,16 +31,14 @@ public class VillagerRespond implements Listener {
 
     if (entity instanceof Villager villager && villager.getProfession() == Villager.Profession.NONE) {
       String name = villager.getCustomName();
-      if (name == null) name = "default";
 
-      if (name.equals("考えるナビゲーター")) {
+      if (Objects.requireNonNull(name).equals("考えるナビゲーター")) {
         String[] lastArgs = plugin.getGameStartCommand().getLastArgs();
-        String difficultyKey = (lastArgs.length == 1) ? lastArgs[0].toLowerCase() : "normal";
+        String difficultyKey = (lastArgs.length == 1) ? lastArgs[0].toLowerCase() : "";
 
         List<String> hintList = plugin.getConfig().getStringList("hintList." + difficultyKey);
         Collections.shuffle(hintList);
-        String selectedHint = hintList.isEmpty() ? "ヒントが見つかりませんでした。" : hintList.getFirst();
-
+        String selectedHint = hintList.isEmpty() ? "ヒントが見つかりませんでした。" : hintList.get(0);
         player.sendMessage(selectedHint);
       }
     }
