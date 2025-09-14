@@ -143,7 +143,13 @@
 
 6.設定ファイルの作成
 
-　- mybatis.config
+　- resoucesファイルのmybatis-config.xmlのpasswordを、ご自身が設定したものに変更します
+
+7.サーバーの起動
+
+　- pluginsフォルダに
+
+ 
 
 
 ---
