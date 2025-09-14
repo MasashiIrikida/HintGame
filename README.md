@@ -93,7 +93,7 @@
 | SDK          | ms-17.0.15 (Microsoft)   |
 | アプリ       | Minecraft 1.21.4         |
 | サーバー     | Spigot 1.21.4            |
-| データベース | MySQL 8.0.42             |
+| データベース | MySQL 8.0.43             |
 | ORM          | MyBatis 3.5.19           |
 | OS           | Windows 11（検証済）     |
 
@@ -101,39 +101,50 @@
 
 ## 導入方法（Windows向けの解説）
 
-1.Minecraftのインストール
+1.Minecraftの購入
 
   - Minecraft; Java&Bedrock Edition for PCを購入して、インストールしてください
 
-　- その際、Microsoftアカウントの作成も必要です
+　- その際、Microsoftアカウントの作成が必要です
 
-  - その後、ローンチャーを開き、バージョン1.21.4を指定した上で、プレイボタンを押すと、
-    しばらくして画面が表示されます
+  - その後、Launcherを開き、バージョン1.21.4を指定した上で、プレイボタンを押すと、
+    しばらくしてプレイ画面に移動します
 
-2.Jarファイルの配置
+2.MySQLのダウンロード
 
-  - 
+　- MySQL Installer 8.0.43をダウンロードします。アカウントは作成しなくても大丈夫です
 
-3.バッチファイルの作成
+  - Installerを起動して、複数の中からMySQL Serverをダウンロードしてください
 
-　- ダウンロードしたJarファイルをspigot_serverに名前を変えます
+3.環境変数の設定
 
-  - メモ帳等からバッチファイルを作成します。内容は以下の通りです
+  - タスクバーの検索バーに「環境変数」と入力して、移動してください
+    
+  - ユーザー環境変数の「新規」を選び、「変数名」をPath、「変数値」を
+    C:\Program Files\MySQL\MySQL Server 8.0\binに指定してください
 
-  - @echo off
-　　java -Xms4G -Xmx4G -jar spigot_server.jar -nogui
-　　pause
+4.MySQLにログイン
 
-　- バッチファイルはserver_start.batのように命名してください
+　- ターミナルアプリを開き、mysql --versionと入力します。情報が返って来る事を確認します
 
-4.サーバーの起動
+  - mysql -u root -pと入力して、パスワードを設定した後、ログインします
 
-　- バッチファイルをダブルクリックすると、サーバーが起動します
+5.データベースの作成
 
-  - eula.textを開いて、eula=falseをtrueに変更してください
+　- MySQLにログインした状態で、テーブルを作成します
 
-  - その後、自動でファイルが作成されます
-  - 
+  '''SQL
+  CREATE DATABASE spigot_server;
+
+  USE spigot_server;
+
+  CREATE TABLE player_score(id int auto_increment, player_name varchar(100), 
+  score int, difficulty varchar(30), registered_at datetime, primary key(id)) 
+  DEFAULT CHARSET=utf8;'''
+
+6.設定ファイルの作成
+
+　- 
 
 
 ---
