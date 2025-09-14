@@ -133,18 +133,17 @@
 
 　- MySQLにログインした状態で、テーブルを作成します
 
-  '''SQL
   CREATE DATABASE spigot_server;
 
   USE spigot_server;
 
   CREATE TABLE player_score(id int auto_increment, player_name varchar(100), 
   score int, difficulty varchar(30), registered_at datetime, primary key(id)) 
-  DEFAULT CHARSET=utf8;'''
+  DEFAULT CHARSET=utf8;
 
 6.設定ファイルの作成
 
-　- 
+　- mybatis.config
 
 
 ---
